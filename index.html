@@ -7,6 +7,44 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <script src="./src/index.js" type="module"></script>
+    <h1 id="header">Product Catalog</h1>
+    <div id="root">
+        <div id="filters">
+            <h3>Filter</h3>
+            <ul>
+                <li>
+                    <label for="categorySelector">Category</label>
+                    <select id="categorySelector" name="category">
+                        <option value="" disabled selected style="display:none;">select...</option>
+                        <option value="">all</option>
+                        <option value="electronics">electronics</option>
+                        <option value="jewelery">jewelery</option>
+                        <option value="men's clothing">men's clothing</option>
+                        <option value="women's clothing">women's clothing</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="minPriceInput">Price</label>
+                    <input id="minPriceInput" type="number" placeholder="min Price" min="0">
+                    <input id="maxPriceInput" type="number" placeholder="max Price" min="0">
+                </li>
+                <li>
+                    <label for="search">Search</label>
+                    <input id="search" placeholder="product name...">
+                </li>
+                <li>
+                    <label for="sort">Sort</label>
+                    <select id="sort">
+                        <option value="" disabled selected>select...</option>
+                        <option value="price-low-to-high">Price Low to High</option>
+                        <option value="price-high-to-low">Price High to Low</option>
+                        <option value="name">Name</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+        <div id="products-container"></div>
+    </div>
+    <script src="./index.js" type="module"></script>
 </body>
 </html>
