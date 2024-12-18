@@ -2,7 +2,7 @@ let productsContainer = document.getElementById("products-container");
 const categorySelector = document.getElementById("categorySelector");
 const minPriceInput = document.getElementById("minPriceInput");
 const maxPriceInput = document.getElementById("maxPriceInput");
-
+const searchInput = document.getElementById('search');
 
 
 
@@ -16,13 +16,27 @@ const loadHandler = async () => {
         return;
     }
     // if the price range is selected, keep only products with price in that range
-    const filteredProducts = filterProductsByPrice(products);
-    if (filteredProducts.length === 0) {
+    const filteredPriceProducts = filterProductsByPrice(products);
+    
+
+    // if there is text in search bar, keep only products with name including that text
+    const searchValue = searchInput ? searchInput.value : null;
+    let searchResult = filteredPriceProducts;
+    console.log(searchResult);
+    if(searchValue){
+        searchResult = filteredPriceProducts.filter((product) => product.title.toLowerCase().includes(searchValue.trim().toLowerCase()) )
+    }
+
+    console.log(searchResult);
+    
+    
+    if (searchResult.length === 0) {
         console.error("No result");
         showError('No result')
         return;
     }
-    filteredProducts.forEach(productData => {   
+    
+    searchResult.forEach(productData => {   
         const product = createProduct(productData);
         productsContainer.append(product);
     });
@@ -82,7 +96,7 @@ const createProduct = (productData) => {
     const productName = document.createElement("div");
     productName.innerText = productData.title;
     const productPrice = document.createElement("div");
-    productPrice.innerText = productData.price;
+    productPrice.innerText = `$${productData.price}`;
     productContainer.append(productImg, productName, productPrice);
     return productContainer;
 }
@@ -95,6 +109,7 @@ categorySelector.addEventListener('change', loadHandler);
 
 minPriceInput.addEventListener('change', loadHandler);
 maxPriceInput.addEventListener('change', loadHandler);
+searchInput.addEventListener('change', loadHandler);
 
 
 
