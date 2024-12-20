@@ -5,10 +5,17 @@ const maxPriceInput = document.getElementById("maxPriceInput");
 const searchInput = document.getElementById('search');
 
 
-
 const loadHandler = async () => {
     // empty the current products list
     productsContainer.innerHTML = '';
+    const minPrice = minPriceInput ? Number(minPriceInput.value) : null;
+    const maxPrice = maxPriceInput ? Number(maxPriceInput.value) : null;
+
+    if (minPrice && maxPrice && minPrice > maxPrice) {
+        console.error("min price cannot exceed max price.");
+        showError('Min price cannot exceed max price!');
+        return; // Stop further processing
+    }
     // fetch data
     const products = await getProducts();
     if (!products) {
@@ -17,22 +24,17 @@ const loadHandler = async () => {
     }
     // if the price range is selected, keep only products with price in that range
     const filteredPriceProducts = filterProductsByPrice(products);
-    
 
     // if there is text in search bar, keep only products with name including that text
     const searchValue = searchInput ? searchInput.value : null;
     let searchResult = filteredPriceProducts;
-    console.log(searchResult);
     if(searchValue){
         searchResult = filteredPriceProducts.filter((product) => product.title.toLowerCase().includes(searchValue.trim().toLowerCase()) )
     }
-
-    console.log(searchResult);
-    
     
     if (searchResult.length === 0) {
         console.error("No result");
-        showError('No result')
+        showError("No Result");
         return;
     }
     
@@ -70,9 +72,7 @@ const filterProductsByPrice = (products) => {
     const maxPrice = maxPriceInput ? Number(maxPriceInput.value): null;
     let filteredProducts = products;
     if(minPrice && maxPrice && minPrice > maxPrice){
-            console.error("min price cannot exceed max price.");
-            showError('min price cannot exceed max price!')
-            return [];
+         return [];
     }
     if (maxPrice) {
         if (minPrice) {
