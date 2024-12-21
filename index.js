@@ -8,6 +8,9 @@ const searchInput = document.getElementById('search');
 const loadHandler = async () => {
     // empty the current products list
     productsContainer.innerHTML = '';
+    minPriceInput.style.borderColor = '';
+    maxPriceInput.style.borderColor = '';
+    
     const minPrice = minPriceInput.value.trim() === "" ? null : Number(minPriceInput.value);
     const maxPrice = maxPriceInput.value.trim() === "" ? null : Number(maxPriceInput.value);
 
